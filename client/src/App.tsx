@@ -38,7 +38,7 @@ function App() {
   if(isAuth && user?.id) {
     if(qrId) {
       dispatch(setQrCode({qrId, user}))
-      window.location.href = 'http://192.169.0.111:3000/'
+      window.location.href = 'http://45.131.99.100:3008/'
     }
   }
 
