@@ -35,8 +35,14 @@ function App() {
 
   const qrId = window.location.pathname.split('/')[1]
 
+  console.log('isAuht', isAuth)
+  console.log('user', user)
+  console.log('qrId', qrId)
+
   if(isAuth && user?.id) {
+    console.log('true')
     if(qrId) {
+      console.log('qrId', qrId)
       dispatch(setQrCode({qrId, user}))
       window.location.href = 'http://45.131.99.100/'
     }
