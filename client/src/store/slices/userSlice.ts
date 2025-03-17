@@ -107,7 +107,7 @@ export const getQrById = createAsyncThunk(
         try {
             const response = await axios.get<AuthResponse>(`${API_URL}/getQrById?id=${id}`, { withCredentials: true })
 
-            return response.data
+            return response.data?.payload
         } catch (e: any) {
             console.log('getQrCodes error', e?.response?.data?.message)
             return thunkAPI.rejectWithValue(e?.response?.data?.message)

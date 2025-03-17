@@ -15,8 +15,7 @@ function RedirectPage() {
         (async() => {
             const origUrl = await dispatch(getQrById(qrId))
             console.log('origUrl', origUrl)
-            //window.loc
-
+            window.location.href = origUrl as any
         })()
     }, [])
 

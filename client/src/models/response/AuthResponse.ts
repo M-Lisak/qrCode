@@ -5,4 +5,5 @@ export interface AuthResponse {
     refreshToken: string
     user: IUser
     qrCodes?: any
+    payload?: string
 }
