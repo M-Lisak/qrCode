@@ -110,7 +110,7 @@ export const getQrById = createAsyncThunk(
 
             return response.data
         } catch (e: any) {
-            console.log('getQrCodes error', e?.response?.data?.message)
+            console.log('getQrById error', e?.response?.data?.message)
             return thunkAPI.rejectWithValue(e?.response?.data?.message)
         }
     }
@@ -233,6 +233,7 @@ export const userSlice = createSlice({
             })
             .addCase(getQrById.fulfilled, (state, action: any) => {
                 state.loading = false
+                console.log('action.payload', action.payload)
                 state.qrCode = action.payload
             })
             .addCase(getQrById.rejected, (state, action: any) => {

@@ -21,6 +21,7 @@ function RegistrationPage() {
     useEffect(() => {
         (async() => {
             if(isAuth) {
+                console.log('isAuth useEffect', isAuth)
                 await dispatch(getQrById(qrId))
             }
         })()
@@ -39,14 +40,14 @@ function RegistrationPage() {
         //нужно заменить ссылку на бэке
     }
 
+    if(!isAuth) {
+        return <LoginForm />
+    }
 
     if(!qrCode?.shortUrl) {
         return <div>Нет данных по этому QR-коду</div>
     }
 
-    if(!isAuth) {
-        return <LoginForm />
-    }
 
     if(user.id === qrCode.userId  || !user.id) {
         //выводим все данные qr-кода
