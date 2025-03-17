@@ -12,7 +12,7 @@ const {Sequelize} = require('sequelize')
 //     }
 // )
 
-export const sequelize = new Sequelize(
+const sequelize = new Sequelize(
     'qrCode',
     'mlisak',
     'root',
@@ -22,3 +22,5 @@ export const sequelize = new Sequelize(
         dialect: 'postgres'
     }
 )
+
+module.export = sequelize
