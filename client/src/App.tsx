@@ -32,23 +32,6 @@ function App() {
     return <LoginForm/>
   }
 
-//всё это должно выполняться, если у qr кода нет привязанного пользователя
-  // const qrId = window.location.pathname.split('/')[1]
-
-  // console.log('isAuht', isAuth)
-  // console.log('user', user)
-  // console.log('qrId', qrId)
-
-  // if(isAuth && user?.id) {
-  //   console.log('true')
-  //   if(qrId) {
-  //     (async() => {
-  //       await dispatch(setQrCode({qrId, user}))
-  //       window.location.href = 'http://45.131.99.100/'
-  //     })()
-  //   }
-  // }
-
   const changeLocUrl = (shortUrl: string) => {
     //откроется промпт и в него вставить новую ссылку?
     const newUrl = prompt('Введите новый url')

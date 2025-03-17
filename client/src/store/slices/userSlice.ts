@@ -10,7 +10,7 @@ const initialState = {
         phone: '',
         id: '',
     },
-    goToOrigUrl: '',
+    qrCode: {} as any,
     qrCodes: [] as any,
     isAuth: false,
     loading: false,
@@ -233,7 +233,7 @@ export const userSlice = createSlice({
             })
             .addCase(getQrById.fulfilled, (state, action: any) => {
                 state.loading = false
-                state.goToOrigUrl = action.payload
+                state.qrCode = action.payload
             })
             .addCase(getQrById.rejected, (state, action: any) => {
                 state.loading = false

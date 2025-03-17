@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import { store } from './store/store';
 import { BrowserRouter, Route, Routes } from 'react-router';
 import RedirectPage from './components/Redirect/Redirect';
+import RegistrationPage from './components/LoginForm/Registration/RegistrationPage';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -15,8 +16,9 @@ root.render(
       <BrowserRouter>
         <Routes>
           <Route path="/">
-            <Route element={<App/>}/>
-            <Route path=':urlid' element={<RedirectPage/>}/>
+            <Route index element={<App/>}/>
+            <Route path=':urlid' element={<RegistrationPage/>}/>
+            <Route path='nav/:urlid' element={<RedirectPage/>}/>
           </Route>
         </Routes>
       </BrowserRouter>
