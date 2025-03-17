@@ -4,12 +4,21 @@ import App from './App';
 
 import { Provider } from 'react-redux'
 import { store } from './store/store';
+import { BrowserRouter, Route, Routes } from 'react-router';
+import RedirectPage from './components/Redirect/Redirect';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
     <Provider store={store}>
-      <App />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/">
+            <Route element={<App/>}/>
+            <Route path=':urlid' element={<RedirectPage/>}/>
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </Provider>
 )

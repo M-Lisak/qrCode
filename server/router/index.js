@@ -11,7 +11,9 @@ router.post('/registration',
 router.post('/login', userController.login)
 router.post('/logout', userController.logout)
 router.get('/refresh', userController.refresh)
-router.get('/nav/:urlid', qrController.navigation)
+// router.get('/:urlid', qrController.navigation)
+
+router.get('/getQrById', qrController.getQrById)
 
 router.get('/test', (req, res, next) => res.json('test success'))
 

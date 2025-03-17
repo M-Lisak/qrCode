@@ -101,6 +101,20 @@ export const getQrCodes = createAsyncThunk(
     }
 )
 
+export const getQrById = createAsyncThunk(
+    'user/getQrById',
+    async (id: string, thunkAPI) => {
+        try {
+            const response = await axios.get<AuthResponse>(`${API_URL}/getQrById?id=${id}`, { withCredentials: true })
+
+            return response.data
+        } catch (e: any) {
+            console.log('getQrCodes error', e?.response?.data?.message)
+            return thunkAPI.rejectWithValue(e?.response?.data?.message)
+        }
+    }
+)
+
 export const changeUrl = createAsyncThunk(
     'user/changeUrl',
     async (data: any, thunkAPI) => {
@@ -209,6 +223,17 @@ export const userSlice = createSlice({
                 state.qrCodes = action.payload
             })
             .addCase(getQrCodes.rejected, (state, action: any) => {
+                state.loading = false
+                state.error = action.payload
+            })
+            //getQrById
+            .addCase(getQrById.pending, (state) => {
+                state.loading = true
+            })
+            .addCase(getQrById.fulfilled, (state) => {
+                state.loading = false
+            })
+            .addCase(getQrById.rejected, (state, action: any) => {
                 state.loading = false
                 state.error = action.payload
             })

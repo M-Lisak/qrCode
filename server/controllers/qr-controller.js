@@ -24,7 +24,7 @@ class QRController {
                         qr_code: "",
                     })
                 } else {
-                    const shortUrl = `${base}/nav/${ID}`
+                    const shortUrl = `${base}/${ID}`
 
                     await UserModel.create({ OriginalUrl, ShortUrl: shortUrl })
                     
@@ -62,7 +62,7 @@ class QRController {
 
             for(let i = 0; i < count; i++) {
                 const ID = nanoid()
-                const shortUrl = `${base}/api/nav/${ID}`
+                const shortUrl = `${base}/${ID}`
                 const originalUrl = `${base}/${ID}`//страница регистрации??
 
                 QRCode.toFile(`qrCodes/${ID}.png`, `${shortUrl}`, opts, async (err, src) => {
@@ -81,7 +81,7 @@ class QRController {
         console.log('navigation')
         try {
             const base = process.env.BASE
-            const url = await QRModel.findOne({ where: {shortUrl: `${base}/api/nav/${req.params.urlid}`}})
+            const url = await QRModel.findOne({ where: {shortUrl: `${base}/${req.params.urlid}`}})
             console.log('url', url)
             if(url) {
                 return res.redirect(302, url.originalUrl)
@@ -100,7 +100,7 @@ class QRController {
             const base = process.env.BASE
 
             //ищем qr-code в нашей базе, смотрим на его использование(можно понять по userId)
-            const qrCode = await QRModel.findOne({ where: {shortUrl: `${base}/api/nav/${qrId}`}})
+            const qrCode = await QRModel.findOne({ where: {shortUrl: `${base}/${qrId}`}})
 
             if(!qrCode) {
                 return res.json('qr-код не найден')
@@ -151,6 +151,20 @@ class QRController {
             await qr.save()
 
             return res.json(qr)
+        } catch (e) {
+            console.log('QRController getQrs Error', e)
+            next(e)
+        }
+    }
+
+    async getQrById(req, res, next) {
+        try {
+            const { id }  = req.query
+            const base = process.env.BASE
+
+            const qrCode = await QRModel.findOne({ where: { shortUrl: `${base}/${id}` }})
+
+            return res.json(qrCode.originalUrl)
         } catch (e) {
             console.log('QRController getQrs Error', e)
             next(e)
