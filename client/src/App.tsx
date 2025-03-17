@@ -42,9 +42,10 @@ function App() {
   if(isAuth && user?.id) {
     console.log('true')
     if(qrId) {
-      console.log('qrId', qrId)
-      dispatch(setQrCode({qrId, user}))
-      window.location.href = 'http://45.131.99.100/'
+      (async() => {
+        await dispatch(setQrCode({qrId, user}))
+        window.location.href = 'http://45.131.99.100/'
+      })()
     }
   }
 
