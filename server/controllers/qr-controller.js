@@ -159,14 +159,18 @@ class QRController {
 
     async getQrById(req, res, next) {
         try {
-            const { id }  = req.query
+            const { id } = req.query
             const base = process.env.BASE
+            console.log('base', base)
+            console.log('id', id)
 
             const qrCode = await QRModel.findOne({ where: { shortUrl: `${base}/${id}` }})
+            console.log('qrCode', qrCode)
+            if(!qrCode) return res.json('')//на наш сайт, но написать, извините, данный qr код не привязан ни к одному сайту
 
             return res.json(qrCode.originalUrl)
         } catch (e) {
-            console.log('QRController getQrs Error', e)
+            console.log('QRController getQrById Error', e)
             next(e)
         }
     }
