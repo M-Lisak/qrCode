@@ -1,75 +1,68 @@
 const { nanoid } = require('nanoid')
-const validateUrl = require('../utils/validateUrl')
-const { UserModel } = require('../models/user-model')
-const QRCode = require('qrcode')
 const { QRModel } = require('../models/qr-model')
 const ApiError = require('../exceptions/api-error')
+const fs = require('fs')
+const { QRCodeStyling } = require('qr-code-styling/lib/qr-code-styling.common.js')
+const { JSDOM } = require('jsdom')
+const nodeCanvas = require('canvas')
+const path = require('path')
 
 class QRController {
-    // async registration(req, res, next) {
-    //     try {
-    //         const { OriginalUrl } = req.body
-
-    //         const base = process.env.BASE
-
-    //         const ID = nanoid()
-
-    //         if(validateUrl(OriginalUrl)){
-    //             const url = await UserModel.findOne({ OriginalUrl })
-
-    //             if(url) {
-    //                 res.render("QRGen", {
-    //                     OriginalUrl: url.OriginalUrl,
-    //                     ShortUrl: url.ShortUrl,
-    //                     qr_code: "",
-    //                 })
-    //             } else {
-    //                 const shortUrl = `${base}/${ID}`
-
-    //                 await UserModel.create({ OriginalUrl, ShortUrl: shortUrl })
-                    
-    //                 res.render("QRGen", {
-    //                     OriginalUrl: OriginalUrl,
-    //                     ShortUrl: shortUrl,
-    //                     qr_code: "",
-    //                 });
-    //             }
-    //         }
-    //     } catch(e) {
-    //         console.log('QRController ERRROR', e)
-    //         next(e)
-    //     }
-    // }
-
     async create(req, res, next) {
         try {
             const { count } = req.body
 
             const base = process.env.BASE
 
-            //создаём qr-коды сохраняя их в БД
-            const opts = {
-                errorCorrectionLevel: "H",
-                type: "png",
-                quality: 0.3,//качество изображения 0-1 
-                margin: 1.2,//ширина по краям QR-кода
-                color: {
-                  dark: "#0000",
-                  light: "#FFFF",
-                },
-                width: 250,
-            }
+            const rootDir = path.resolve()
+
+            const pathToLogo = path.join(rootDir, '/public/logo.png')
+
+            //ВНИМАНИЕ не должно быть одинаковых ID, нужно за ранее получить все qr-коды,
+            //и при создании нового искать в этом массиве, если всё норм, то после создания добавлять его в этот массив
 
             for(let i = 0; i < count; i++) {
                 const ID = nanoid()
                 const shortUrl = `${base}/nav/${ID}`
-                const originalUrl = `${base}/${ID}`//страница регистрации??
+                const originalUrl = `${base}/${ID}`
 
-                QRCode.toFile(`qrCodes/${ID}.png`, `${shortUrl}`, opts, async (err, src) => {
-                    //сохраняем каждый QR в БД
+                const qrCode = new QRCodeStyling({
+                    jsdom: JSDOM,
+                    nodeCanvas,
+                    width: 300,
+                    height: 300,
+                    image: pathToLogo,
+                    data: shortUrl,
+                    dotsOptions: {
+                      type: "rounded",
+                      gradient: {
+                        type: 'radial',
+                        colorStops: [{offset: 0, color: '#B41D9E'}, {offset: 1, color: '#8116C0'}]
+                      }
+                    },
+                    cornersSquareOptions: {
+                        color: '#8116C0',
+                        type: 'extra-rounded',
+                    },
+                    cornersDotOptions: {
+                        color: '#B41D9E'
+                    },
+                    imageOptions: {
+                      crossOrigin: "anonymous",
+                      saveAsBlob: true
+                    }
+                })
+
+                qrCode.getRawData('png').then(async (buffer) => {
+                    //можно данные этого буфера хранить, чтобы потом их отрисовывать)
                     await QRModel.create({ shortUrl, originalUrl, name: ID })
+                    // console.log('buffer', buffer)
+
+                    const pathToQr = path.join(rootDir, `/qrCodes/${ID}.png`)
+                    fs.writeFileSync(pathToQr, buffer)
                 })
             }
+
             res.json('success')
         } catch (e) {
             console.log('QRController create ERRROR', e)

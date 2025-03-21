@@ -5,6 +5,10 @@ import { AppDispatch } from '../../../store/store'
 import { changeUrl, checkAuth, getQrById, registrationQrCode } from '../../../store/slices/userSlice'
 import LoginForm from '../LoginForm'
 
+//переименовать лист, и назвать Страница конкретного QR-кода
+//Логика должна быть такая, что в случае если у qr нет userId,
+//то только тогда это страница регистрации,
+//в остальных случаях это страница отображения всей инфы по конкретному qr-коду
 
 function RegistrationPage() {
     console.log('registration page')

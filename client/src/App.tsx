@@ -2,13 +2,14 @@ import React, { useEffect } from 'react';
 import LoginForm from './components/LoginForm/LoginForm';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from './store/store';
-import { changeUrl, checkAuth, logout, setQrCode } from './store/slices/userSlice';
+import { changeUrl, checkAuth, logout } from './store/slices/userSlice';
 import { useAppSelector } from './store/hooks';
+
+//в идеале, чтобы здесь нельзя было заменить ссылку на qr
 
 function App() {
   const dispatch = useDispatch<AppDispatch>()
   const isAuth = useAppSelector(state => state.user.isAuth)
-  const user = useAppSelector(state => state.user.user)
   const isLoading = useAppSelector(state => state.user.loading)
   const qrCodes = useAppSelector(state => state.user.qrCodes) || []
 
