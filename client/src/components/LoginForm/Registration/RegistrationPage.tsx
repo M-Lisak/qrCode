@@ -20,8 +20,8 @@ function RegistrationPage() {
 
     useEffect(() => {
         (async() => {
+            console.log('isAuth useEffect', isAuth)
             if(isAuth) {
-                console.log('isAuth useEffect', isAuth)
                 await dispatch(getQrById(qrId))
             }
         })()
