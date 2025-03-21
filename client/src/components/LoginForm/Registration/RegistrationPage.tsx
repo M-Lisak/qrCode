@@ -16,7 +16,6 @@ function RegistrationPage() {
 
     //получаем все данные qr-кода
     const qrId = window.location.pathname.split('/')[1]
-    console.log('qrId', qrId)
 
     useEffect(() => {
         (async() => {
@@ -29,7 +28,7 @@ function RegistrationPage() {
                 await dispatch(getQrById(qrId))
             }
         })()
-    }, [])
+    }, [isAuth, qrId])
 
     //если есть данные по qr-коду, то проверяем принаделжит ли этот qr-код текущему пользователю
 
@@ -43,6 +42,8 @@ function RegistrationPage() {
     
         //нужно заменить ссылку на бэке
     }
+
+    console.log('qrCode',qrCode)
 
     if(!isAuth) {
         return <LoginForm />
