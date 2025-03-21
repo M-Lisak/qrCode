@@ -131,6 +131,24 @@ export const changeUrl = createAsyncThunk(
     }
 )
 
+export const registrationQrCode = createAsyncThunk(
+    'user/registrationQrCode',
+    async (data: any, thunkAPI) => {
+        try {
+            const response = await axios.post<AuthResponse>(`${API_URL}/registrationQrCode`, data)
+            console.log('response', response.data)
+
+            return response.data
+        } catch (e: any) {
+            console.log('registrationQrCode error', e?.response?.data?.message)
+            return thunkAPI.rejectWithValue(e?.response?.data?.message)
+        }
+    }
+)
+
+
+
+
 export const userSlice = createSlice({
     name: 'user',
     initialState,
@@ -256,6 +274,19 @@ export const userSlice = createSlice({
                 })
             })
             .addCase(changeUrl.rejected, (state, action: any) => {
+                state.loading = false
+                state.error = action.payload
+            })
+            //registrationQrCode
+            .addCase(registrationQrCode.pending, (state) => {
+                state.loading = true
+            })
+            .addCase(registrationQrCode.fulfilled, (state, action: any) => {
+                state.loading = false
+                //нужно qr-коду заменить userId
+                state.qrCode = {...state.qrCode, userId: action.payload}//по сути можно даже не action.payload, а текущий user.id
+            })
+            .addCase(registrationQrCode.rejected, (state, action: any) => {
                 state.loading = false
                 state.error = action.payload
             })

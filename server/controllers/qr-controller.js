@@ -173,6 +173,25 @@ class QRController {
         }
     }
 
+    async registrationQrCode(req, res, next) {
+        try {
+            const { userId, qrId } = req.body
+            const base = process.env.BASE
+
+            const qrCode = await QRModel.findOne({ where: { shortUrl: `${base}/nav/${qrId}` }})
+
+            if(!qrCode) return res.json('err registration')//на наш сайт, но написать, что такого qr-кода не найдено
+            
+            qrCode.userId = userId
+            await qrCode.save()
+
+            return res.json(userId)
+        } catch (e) {
+            console.log('QRController registrationQrCode Error', e)
+            next(e)
+        }
+    }
+
 }
 
 module.exports = new QRController()

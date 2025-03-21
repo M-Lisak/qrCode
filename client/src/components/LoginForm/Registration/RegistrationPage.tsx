@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useAppSelector } from '../../../store/hooks'
 import { AppDispatch } from '../../../store/store'
-import { changeUrl, checkAuth, getQrById } from '../../../store/slices/userSlice'
+import { changeUrl, checkAuth, getQrById, registrationQrCode } from '../../../store/slices/userSlice'
 import LoginForm from '../LoginForm'
 
 
@@ -46,13 +46,17 @@ function RegistrationPage() {
     if(!isAuth) {
         return <LoginForm />
     }
+    //если у qrCode нет userId, то присваиваем этот qr этому пользователю
 
     if(!qrCode?.shortUrl) {
-        return <div>Нет данных по этому QR-коду</div>
+        return <div>Похоже, что такого QR-кода не существует</div>
+    } else if(!qrCode?.userId && user.id && qrId) {
+        //присваиваем это QR-код этому пользователю
+        dispatch(registrationQrCode({qrId, userId: user.id }))
     }
 
 
-    if(user.id === qrCode.userId  || !user.id) {
+    if(user.id === qrCode.userId) {
         //выводим все данные qr-кода
         return <div>
             <span style={{background: '#d0d0d0'}}>{qrCode?.name}</span>

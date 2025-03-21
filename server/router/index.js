@@ -20,6 +20,7 @@ router.get('/test', (req, res, next) => res.json('test success'))
 router.post('/setQr', qrController.setQr)
 router.get('/getQrs', qrController.getQrs)
 router.post('/changeUrl', qrController.changeUrl)
+router.post('/registrationQrCode', qrController.registrationQrCode)
 
 router.post('/createQRs', qrController.create)
 
