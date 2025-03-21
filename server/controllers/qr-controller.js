@@ -6,40 +6,40 @@ const { QRModel } = require('../models/qr-model')
 const ApiError = require('../exceptions/api-error')
 
 class QRController {
-    async registration(req, res, next) {
-        try {
-            const { OriginalUrl } = req.body
+    // async registration(req, res, next) {
+    //     try {
+    //         const { OriginalUrl } = req.body
 
-            const base = process.env.BASE
+    //         const base = process.env.BASE
 
-            const ID = nanoid()
+    //         const ID = nanoid()
 
-            if(validateUrl(OriginalUrl)){
-                const url = await UserModel.findOne({ OriginalUrl })
+    //         if(validateUrl(OriginalUrl)){
+    //             const url = await UserModel.findOne({ OriginalUrl })
 
-                if(url) {
-                    res.render("QRGen", {
-                        OriginalUrl: url.OriginalUrl,
-                        ShortUrl: url.ShortUrl,
-                        qr_code: "",
-                    })
-                } else {
-                    const shortUrl = `${base}/${ID}`
+    //             if(url) {
+    //                 res.render("QRGen", {
+    //                     OriginalUrl: url.OriginalUrl,
+    //                     ShortUrl: url.ShortUrl,
+    //                     qr_code: "",
+    //                 })
+    //             } else {
+    //                 const shortUrl = `${base}/${ID}`
 
-                    await UserModel.create({ OriginalUrl, ShortUrl: shortUrl })
+    //                 await UserModel.create({ OriginalUrl, ShortUrl: shortUrl })
                     
-                    res.render("QRGen", {
-                        OriginalUrl: OriginalUrl,
-                        ShortUrl: shortUrl,
-                        qr_code: "",
-                    });
-                }
-            }
-        } catch(e) {
-            console.log('QRController ERRROR', e)
-            next(e)
-        }
-    }
+    //                 res.render("QRGen", {
+    //                     OriginalUrl: OriginalUrl,
+    //                     ShortUrl: shortUrl,
+    //                     qr_code: "",
+    //                 });
+    //             }
+    //         }
+    //     } catch(e) {
+    //         console.log('QRController ERRROR', e)
+    //         next(e)
+    //     }
+    // }
 
     async create(req, res, next) {
         try {
@@ -62,7 +62,7 @@ class QRController {
 
             for(let i = 0; i < count; i++) {
                 const ID = nanoid()
-                const shortUrl = `${base}/${ID}`
+                const shortUrl = `${base}/nav/${ID}`
                 const originalUrl = `${base}/${ID}`//страница регистрации??
 
                 QRCode.toFile(`qrCodes/${ID}.png`, `${shortUrl}`, opts, async (err, src) => {
@@ -72,7 +72,7 @@ class QRController {
             }
             res.json('success')
         } catch (e) {
-            console.log('QRController ERRROR', e)
+            console.log('QRController create ERRROR', e)
             next(e)
         }
     }
@@ -162,7 +162,7 @@ class QRController {
             const { id } = req.query
             const base = process.env.BASE
 
-            const qrCode = await QRModel.findOne({ where: { shortUrl: `${base}/${id}` }})
+            const qrCode = await QRModel.findOne({ where: { shortUrl: `${base}/nav/${id}` }})
 
             if(!qrCode) return res.json('')//на наш сайт, но написать, что такого qr-кода не найдено
 

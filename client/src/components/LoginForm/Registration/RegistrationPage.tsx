@@ -32,8 +32,6 @@ function RegistrationPage() {
 
     //если есть данные по qr-коду, то проверяем принаделжит ли этот qr-код текущему пользователю
 
-
-
     const changeLocUrl = (shortUrl: string) => {
         //откроется промпт и в него вставить новую ссылку
         const newUrl = prompt('Введите новый url')
