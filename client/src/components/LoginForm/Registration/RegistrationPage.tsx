@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useAppSelector } from '../../../store/hooks'
 import { AppDispatch } from '../../../store/store'
-import { changeUrl, getQrById } from '../../../store/slices/userSlice'
+import { changeUrl, checkAuth, getQrById } from '../../../store/slices/userSlice'
 import LoginForm from '../LoginForm'
 
 
@@ -20,6 +20,10 @@ function RegistrationPage() {
 
     useEffect(() => {
         (async() => {
+            //нужно наверняка проверить авторизован ли пользователь
+            if(localStorage.getItem('token')) {
+                dispatch(checkAuth())
+            }
             console.log('isAuth useEffect', isAuth)
             if(isAuth) {
                 await dispatch(getQrById(qrId))
