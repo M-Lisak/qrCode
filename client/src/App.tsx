@@ -45,13 +45,15 @@ function App() {
   return (
     <div>
       {
-        qrCodes.map((el: any) => (
-          <div key={el.name}>
-            <span style={{background: '#d0d0d0'}}>{el.name}</span>
-            <span style={{background: 'red'}}>{el.originalUrl}</span>
-            <button onClick={() => changeLocUrl(el.shortUrl)}>Заменить</button>
-          </div>
-        ))
+        qrCodes.map((el: any) => {
+          const sourceImg = `http://45.131.99.100:5014/qrCodes/SlZdPK2Uo0g9Od08LHAX9.png`
+          return (<div key={el.name}>
+              <img id="img" src=""></img>
+              <span style={{background: '#d0d0d0'}}>{el.name}</span>
+              <span style={{background: 'red'}}>{el.originalUrl}</span>
+              <button onClick={() => changeLocUrl(el.shortUrl)}>Заменить</button>
+            </div>)
+        })
       }
 
       <button onClick={exit}>Выйти</button>
