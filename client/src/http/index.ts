@@ -1,5 +1,6 @@
 import axios from "axios"
 
+//'http://localhost:5014/api'
 export const API_URL = 'http://45.131.99.100:5014/api'
 
 const $api = axios.create({

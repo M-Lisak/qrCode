@@ -48,8 +48,8 @@ class QRController {
                         color: '#B41D9E'
                     },
                     imageOptions: {
-                      crossOrigin: "anonymous",
-                      saveAsBlob: true
+                        crossOrigin: "anonymous",
+                        saveAsBlob: true
                     }
                 })
 
@@ -150,6 +150,24 @@ class QRController {
         }
     }
 
+    async changeName(req, res, next) {
+        try {
+            const { shortUrl, newName } = req.body
+
+            const qr = await QRModel.findOne({ where: { shortUrl }})
+
+            if(!qr) return res.json('qr-код не найден')
+
+            qr.name = newName
+            await qr.save()
+
+            return res.json(qr)
+        } catch (e) {
+            console.log('QRController getQrs Error', e)
+            next(e)
+        }
+    }
+
     async getQrById(req, res, next) {
         try {
             const { id } = req.query
@@ -157,7 +175,7 @@ class QRController {
 
             const qrCode = await QRModel.findOne({ where: { shortUrl: `${base}/nav/${id}` }})
 
-            if(!qrCode) return res.json('')//на наш сайт, но написать, что такого qr-кода не найдено
+            if(!qrCode) return res.json({})//на наш сайт, но написать, что такого qr-кода не найдено
 
             return res.json(qrCode)
         } catch (e) {

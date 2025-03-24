@@ -2,9 +2,12 @@ import React, { useEffect } from 'react';
 import LoginForm from './components/LoginForm/LoginForm';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from './store/store';
-import { changeUrl, checkAuth, logout } from './store/slices/userSlice';
+import { checkAuth, logout } from './store/slices/userSlice';
 import { useAppSelector } from './store/hooks';
-
+import classes from './App.module.scss'
+import { useNavigate } from 'react-router';
+import { getIdFromUrl } from './utils';
+import Header from './components/Header/Header';
 //в идеале, чтобы здесь нельзя было заменить ссылку на qr
 
 function App() {
@@ -12,8 +15,7 @@ function App() {
   const isAuth = useAppSelector(state => state.user.isAuth)
   const isLoading = useAppSelector(state => state.user.loading)
   const qrCodes = useAppSelector(state => state.user.qrCodes) || []
-
-  console.log('qrCodes', qrCodes)
+  const navigate = useNavigate()
 
   useEffect( () => {
     if(localStorage.getItem('token')) {
@@ -33,29 +35,25 @@ function App() {
     return <LoginForm/>
   }
 
-  const changeLocUrl = (shortUrl: string) => {
-    //откроется промпт и в него вставить новую ссылку?
-    const newUrl = prompt('Введите новый url')
-    if(!newUrl) return //так же можно regex проверить
-    dispatch(changeUrl({ shortUrl, newUrl }))
-
-    //нужно заменить ссылку на бэке
+  const goToQr = (url: string) => {
+    const identificate = getIdFromUrl(url)
+    navigate(`/${identificate}`)
   }
 
   return (
-    <div>
-      {
-        qrCodes.map((el: any) => {
-          return (<div key={el.name}>
-              <img id="img" src="http://45.131.99.100:5014/qrCodes/SlZdPK2Uo0g9Od08LHAX9.png"></img>
-              <span style={{background: '#d0d0d0'}}>{el.name}</span>
-              <span style={{background: 'red'}}>{el.originalUrl}</span>
-              <button onClick={() => changeLocUrl(el.shortUrl)}>Заменить</button>
-            </div>)
-        })
-      }
-
-      <button onClick={exit}>Выйти</button>
+    <div className={classes['App']}>
+      <Header />
+      <div className={classes['main']}>
+        {
+          qrCodes.map((el: any) => {
+            const sourceImg = `http://45.131.99.100:5014/qrCodes/${getIdFromUrl(el.shortUrl)}.png`
+            return (<div key={el.name} className={classes['main__qr-list']} onClick={() => goToQr(el.shortUrl)}>
+                <img id="img" src={sourceImg}></img>
+                <span>{el.name}</span>
+              </div>)
+          })
+        }
+      </div>
     </div>
   )
 }

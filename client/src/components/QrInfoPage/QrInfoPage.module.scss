@@ -1,0 +1,36 @@
+.qr-info-page {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+
+    &__main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        h3 {
+            margin-bottom: 10px;
+            font-size: 25px;
+        }
+        img {
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        span {
+            font-size: 20px;
+            text-decoration: underline;
+            margin-bottom: 10px;
+            text-align: center;
+            width: 85%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        button {
+            height: 35px;
+            width: 200px;
+            margin-bottom: 10px;
+        }
+    }
+}

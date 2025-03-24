@@ -1,8 +1,5 @@
 import React, { FC, useState } from "react";
-// import { authActions } from "@/store/actions/AuthActions";
-// import { useNavigate } from "react-router-dom";
-// import { GlobalStore } from "redux-micro-frontend";
-// import classes from "./LoginForm.module.scss"
+import classes from "./LoginForm.module.scss"
 import { useDispatch, /* useSelector */ } from "react-redux";
 import { login, registration } from "../../store/slices/userSlice";
 import { AppDispatch } from "../../store/store";
@@ -23,12 +20,12 @@ const LoginForm: FC = () => {
     }
 
     return (
-        <div /* className={classes['login-form']} */>
+        <div className={classes['login-form']}>
             <input
                 onChange={e => setPhone(e.target.value)}
                 value={phone}
                 type="text"
-                placeholder="Phone"
+                placeholder="Номер телефона"
             />
             <input
                 onChange={e => setPassword(e.target.value)}

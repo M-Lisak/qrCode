@@ -77,7 +77,6 @@ export const setQrCode = createAsyncThunk(
     'user/setQrCode',
     async (user: any, thunkAPI) => {
         try {
-            console.log('кидаем запрос на бэкэнд на установку этого qr`а для этого пользователя')
             const response = await axios.post<AuthResponse>(`${API_URL}/setQr`, user)
             // return response.data
             return 'asdf'
@@ -121,11 +120,24 @@ export const changeUrl = createAsyncThunk(
     async (data: any, thunkAPI) => {
         try {
             const response = await axios.post<AuthResponse>(`${API_URL}/changeUrl`, data)
-            console.log('response', response.data)
 
             return response.data
         } catch (e: any) {
             console.log('changeUrl error', e?.response?.data?.message)
+            return thunkAPI.rejectWithValue(e?.response?.data?.message)
+        }
+    }
+)
+
+export const changeName = createAsyncThunk(
+    'user/changeName',
+    async (data: any, thunkAPI) => {
+        try {
+            const response = await axios.post<AuthResponse>(`${API_URL}/changeName`, data)
+
+            return response.data
+        } catch (e: any) {
+            console.log('changeName error', e?.response?.data?.message)
             return thunkAPI.rejectWithValue(e?.response?.data?.message)
         }
     }
@@ -136,7 +148,6 @@ export const registrationQrCode = createAsyncThunk(
     async (data: any, thunkAPI) => {
         try {
             const response = await axios.post<AuthResponse>(`${API_URL}/registrationQrCode`, data)
-            console.log('response', response.data)
 
             return response.data
         } catch (e: any) {
@@ -154,11 +165,9 @@ export const userSlice = createSlice({
     initialState,
     reducers: {
         setUser: (state, action) => {
-            console.log('setUser')
             state.user = action.payload
         },
         setAuth: (state, action) => {
-            console.log('setAuth')
             state.isAuth = action.payload
         }
     },
@@ -224,7 +233,6 @@ export const userSlice = createSlice({
             })
             .addCase(setQrCode.fulfilled, (state, action: any) => {
                 state.loading = false
-                console.log('action.payload', action.payload)
                 if(action.payload?.userId) {
                     state.qrCodes.push(action.payload)//мб нужно переделать
                 }
@@ -251,7 +259,6 @@ export const userSlice = createSlice({
             })
             .addCase(getQrById.fulfilled, (state, action: any) => {
                 state.loading = false
-                console.log('action.payload', action.payload)
                 state.qrCode = action.payload
             })
             .addCase(getQrById.rejected, (state, action: any) => {
@@ -272,8 +279,29 @@ export const userSlice = createSlice({
 
                     return qr
                 })
+                state.qrCode = action.payload
             })
             .addCase(changeUrl.rejected, (state, action: any) => {
+                state.loading = false
+                state.error = action.payload
+            })
+            //changeName
+            .addCase(changeName.pending, (state) => {
+                state.loading = true
+            })
+            .addCase(changeName.fulfilled, (state, action: any) => {
+                state.loading = false
+                //нужно уже у имеющегося qr кода обновить originalUrl
+                state.qrCodes = state.qrCodes.map((qr: any) => {
+                    if(qr?.shortUrl === action.payload?.shortUrl) {
+                        return {...qr, originalUrl: action.payload?.name}
+                    }
+
+                    return qr
+                })
+                state.qrCode = action.payload
+            })
+            .addCase(changeName.rejected, (state, action: any) => {
                 state.loading = false
                 state.error = action.payload
             })
