@@ -16,7 +16,7 @@ class QRController {
 
             const rootDir = path.resolve()
 
-            const pathToLogo = path.join(rootDir, '/public/logo.png')
+            const pathToLogo = path.join(rootDir, '/public/logo6.png')
 
             //ВНИМАНИЕ не должно быть одинаковых ID, нужно за ранее получить все qr-коды,
             //и при создании нового искать в этом массиве, если всё норм, то после создания добавлять его в этот массив
@@ -35,17 +35,27 @@ class QRController {
                     data: shortUrl,
                     dotsOptions: {
                       type: "rounded",
-                      gradient: {
-                        type: 'radial',
-                        colorStops: [{offset: 0, color: '#B41D9E'}, {offset: 1, color: '#8116C0'}]
-                      }
+                      color: '#F17E00',
+                    //   gradient: {
+                    //     type: 'radial',
+                    //     color: '#ffffff',
+                    //     colorStops: [{offset: 0, color: '#ffffff'}, {offset: 1, color: '#ffffff'}]
+                    //   }
+                    },
+                    backgroundOptions: {
+                        color: '#ffffff',
+                        // gradient: {
+                        //     type: 'linear',
+                        //     colorStops: [{offset: 0, color: '#0B6B5C'}, {offset: 1, color: '#14825B'}],
+                        //     rotation: 90
+                        // }
                     },
                     cornersSquareOptions: {
-                        color: '#8116C0',
+                        color: '#F17E00',
                         type: 'extra-rounded',
                     },
                     cornersDotOptions: {
-                        color: '#B41D9E'
+                        color: '#F17E00'
                     },
                     imageOptions: {
                         crossOrigin: "anonymous",
@@ -54,9 +64,7 @@ class QRController {
                 })
 
                 qrCode.getRawData('png').then(async (buffer) => {
-                    //можно данные этого буфера хранить, чтобы потом их отрисовывать)
                     await QRModel.create({ shortUrl, originalUrl, name: ID })
-                    // console.log('buffer', buffer)
 
                     const pathToQr = path.join(rootDir, `/qrCodes/${ID}.png`)
                     fs.writeFileSync(pathToQr, buffer)
