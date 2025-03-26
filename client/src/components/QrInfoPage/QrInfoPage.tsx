@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useAppSelector } from '../../store/hooks'
 import { AppDispatch } from '../../store/store'
@@ -7,10 +7,7 @@ import LoginForm from '../LoginForm/LoginForm'
 import classes from './QrInfoPage.module.scss'
 import Header from '../Header/Header'
 import { getIdFromUrl } from '../../utils'
-
-//Логика должна быть такая, что в случае если у qr нет userId,
-//то только тогда это страница регистрации,
-//в остальных случаях это страница отображения всей инфы по конкретному qr-коду
+import Modal from '../Modal/Modal'
 
 function QrInfoPage() {
     //если мы на этой странице, то мы работаем с QR-кодом
@@ -19,6 +16,11 @@ function QrInfoPage() {
     const isAuth = useAppSelector(state => state.user.isAuth)
     const user = useAppSelector(state => state.user.user)
     const loading = useAppSelector(state => state.user.loading)
+    const [ isModalActive, setModalActive ] = useState(false)
+    const [ isModalActiveName, setModalActiveName ] = useState(false)
+    const [ newLink, setNewLink ] = useState('')
+    const [ errorInput, setErrorInput ] = useState('')
+    const [ newName, setNewName ] = useState('')
 
     //получаем все данные qr-кода
     const qrId = window.location.pathname.split('/')[1]
@@ -35,20 +37,55 @@ function QrInfoPage() {
         })()
     }, [isAuth, qrId])
 
-    //если есть данные по qr-коду, то проверяем принаделжит ли этот qr-код текущему пользователю
-
-    const changeLocUrl = (shortUrl: string) => {
-        //откроется промпт и в него вставить новую ссылку
-        const newUrl = prompt('Введите новый url')
-        if(!newUrl) return //так же можно regex проверить
-        dispatch(changeUrl({ shortUrl, newUrl }))
-        //нужно заменить ссылку на бэке
+    const handleModalOpen = () => {
+        setModalActive(true);
+    }
+    const handleModalClose = () => {
+        setModalActive(false);
+        setNewLink('')
     }
 
-    const changeLocName = (shortUrl: string) => {//ограничение на кол-во симоволов
-        const newName = prompt('Введите новое название')
-        if(!newName) return
-        dispatch(changeName({shortUrl, newName}))
+    const handleModalOpenName = () => {
+        setModalActiveName(true)
+    }
+
+    const handleModalCloseName = () => {
+        setModalActiveName(false)
+        setNewName('')
+    }
+    //если есть данные по qr-коду, то проверяем принаделжит ли этот qr-код текущему пользователю
+
+    const saveNewLink = () => {
+        //здесь отправляем запрос на бэк
+        const regex = /^(https:\/\/)(t.me|vk.com|ok.ru\/profile)\/[^\s@]*$/
+
+        const isLink = regex.test(newLink)
+
+        if(!isLink) setErrorInput(`Ссылка должна быть в формате:\nhttps://t.me/username\nhttps://vk.com/username\nhttps://ok.ru/profile/username`)
+        else {
+            dispatch(changeUrl({ shortUrl: qrCode?.shortUrl, newUrl: newLink }))
+            handleModalClose()
+        }
+    }
+
+    const saveNewName = () => {
+        dispatch(changeName({shortUrl: qrCode?.shortUrl, newName}))
+        handleModalCloseName()
+    }
+    
+
+    const onChangeLink = (link: string) => {
+        //здесь меняем ссылку и валидируем её
+        setNewLink(link)
+        const regex = /^(https:\/\/)(t.me|vk.com|ok.ru\/profile)\/[^\s@]*$/
+
+        const isLink = regex.test(link)
+        //здесь мы можем окрашивать только в обычный цвет и удалять ошибки(если до этого были ошибки)
+        if(isLink) setErrorInput('')
+    }
+
+    const onChangeName = (name: string) => {
+        setNewName(name)
     }
 
     if(loading) {//есть момент, в котором пользователь не авторизован, и при этом loading false
@@ -77,9 +114,43 @@ function QrInfoPage() {
                 <h3>{qrCode?.name}</h3>
                 <img src={`http://45.131.99.100:5014/qrCodes/${getIdFromUrl(qrCode?.shortUrl)}.png`}></img>
                 <span>{qrCode?.originalUrl}</span>
-                <button onClick={() => changeLocUrl(qrCode?.shortUrl)}>Заменить URL</button>
-                <button onClick={() => changeLocName(qrCode?.shortUrl)}>Сменить название</button>
+                <button onClick={handleModalOpen}>Заменить URL</button>
+                <button onClick={handleModalOpenName}>Сменить название</button>
             </div>
+            {
+                isModalActive && (
+                    <Modal title="Введите новую ссылку" onClose={handleModalClose}>
+                        <div className={classes['qr-info-page__main__modal']}>
+                            <input
+                                onChange={e => onChangeLink(e.target.value)}
+                                value={newLink}
+                                type="text"
+                                placeholder="Ссылка"
+                            />
+                            {errorInput && <span>{errorInput}</span>}
+                            <button onClick={saveNewLink}>Сохранить</button>
+                            <button onClick={handleModalClose}>Отмена</button>
+                        </div>
+                    </Modal>
+                )
+            }
+            {
+                isModalActiveName && (
+                    <Modal title="Введите новое название QR-кода" onClose={handleModalCloseName}>
+                        <div className={classes['qr-info-page__main__modal']}>
+                            <input
+                                onChange={e => onChangeName(e.target.value)}
+                                value={newName}
+                                type="text"
+                                placeholder="Название"
+                            />
+                            {errorInput && <span>{errorInput}</span>}
+                            { newName && <button onClick={saveNewName}>Сохранить</button>}
+                            <button onClick={handleModalCloseName}>Отмена</button>
+                        </div>
+                    </Modal>
+                )
+            }
         </div>
     }
 

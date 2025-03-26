@@ -2,12 +2,9 @@ const Router = require('express').Router
 const userController = require('../controllers/user-controller')
 const qrController = require('../controllers/qr-controller')
 const router = new Router()
-const { body } = require('express-validator')
+// const { body } = require('express-validator')
 
-router.post('/registration',
-            body('phone').isMobilePhone('ru-RU',),
-            body('password').isLength({min: 3, max: 32}),
-            userController.registration)
+router.post('/registration', userController.registration)
 router.post('/login', userController.login)
 router.post('/logout', userController.logout)
 router.get('/refresh', userController.refresh)
