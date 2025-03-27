@@ -13,13 +13,11 @@ const LoginForm: FC = () => {
     const errors = useAppSelector(state => state.user.error)
 
     const singIn = async () => {
-        //если такой номер уже существует, то прислать соответствующее уведомление  
         await dispatch(login({phone, password}))
         setRegErr('')
     }
 
     const singUp = async () => {
-        //валидировать вводные данные
         const regex = /^89\d{9}$|.+@.+\..+$/
         const isPhoneOrEmail = regex.test(phone)
         if(isPhoneOrEmail) {

@@ -6,6 +6,7 @@ const QRModel = sequelize.define('qr', {
     name: { type: DataTypes.TEXT, defaultValue: '' },
     originalUrl: { type: DataTypes.TEXT, defaultValue: 'http://45.131.99.100:5014/' },
     shortUrl: { type: DataTypes.TEXT, unique: true },
+    count: { type: DataTypes.INTEGER, defaultValue: 0 },
 }, {timestamps: false, createdAt: false, updatedAt: false})
 
 module.exports = {

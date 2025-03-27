@@ -22,7 +22,7 @@ function Header() {
 
   return (
       <div className={classes['header']} onClick={goToHome}>
-        <h3>Header</h3>
+        <h3>QR</h3>
         <div className={classes['header__right-panel']}>
           <span>{phone}</span>
           <button onClick={exit}>Выйти</button>

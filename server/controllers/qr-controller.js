@@ -79,13 +79,16 @@ class QRController {
     }
 
     async navigation(req, res, next) {
-        console.log('navigation')
         try {
             const base = process.env.BASE
-            const url = await QRModel.findOne({ where: {shortUrl: `${base}/${req.params.urlid}`}})
-            console.log('url', url)
-            if(url) {
-                return res.redirect(302, url.originalUrl)
+            const qrCode = await QRModel.findOne({ where: {shortUrl: `${base}/${req.params.urlid}`}})
+            //добавить кол-во переходов по ссылке
+
+            if(qrCode) {
+                qrCode.count += 1
+                await qrCode.save()
+                //здесь же можно отправлять уведомление о переходе
+                return res.redirect(302, qrCode.originalUrl)//мб поставить это выше по коду?
             } else {
                 res.status(404).json("Not found")
             }

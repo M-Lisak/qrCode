@@ -21,7 +21,6 @@ class UserController {
     }
 
     async login(req, res, next) {
-        console.log('-----------------LOGIN--------------------')
         try {
             const {phone, password} = req.body
 
@@ -59,12 +58,15 @@ class UserController {
         }
     }
 
-    async getUsers(req, res, next) {
+    async regTg(req, res, next) {
         try {
-            const users = await UserService.getAllUsers()
-            return res.json(users)
-        } catch(e) {
-            next(e)
+            const {phone, password, chatId} = req.body
+
+            const userData = await UserService.regTg(phone, password, chatId)
+
+            return res.json(userData)
+        } catch (e) {
+            next(e)   
         }
     }
 }

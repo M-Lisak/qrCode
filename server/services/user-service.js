@@ -74,9 +74,22 @@ class UserService {
         return { ...tokens, user: userDto, qrCodes}
     }
 
-    async getAllUsers() {
-        const users = await UserModel.findAll()
-        return users
+    async regTg(phone, password, chatId) {
+        const user = await UserModel.findOne({where: { phone }})
+        if(!user) {
+            throw ApiError.BadRequest('Пользователь с таким phone не найден')
+        }
+
+        const isPassEquals = await bcrypt.compare(password, user.password)
+        if(!isPassEquals) {
+            throw ApiError.BadRequest('Неверный пароль')
+        }
+
+        //пользователь верно ввёл свои данные можно присваивать ему chatId этого пользователя
+        user.tgId = chatId
+        await user.save()
+
+        return user
     }
 }
 

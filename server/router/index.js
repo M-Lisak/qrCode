@@ -2,7 +2,6 @@ const Router = require('express').Router
 const userController = require('../controllers/user-controller')
 const qrController = require('../controllers/qr-controller')
 const router = new Router()
-// const { body } = require('express-validator')
 
 router.post('/registration', userController.registration)
 router.post('/login', userController.login)
@@ -12,14 +11,16 @@ router.get('/refresh', userController.refresh)
 
 router.get('/getQrById', qrController.getQrById)
 
-router.get('/test', (req, res, next) => res.json('test success'))
-
 router.post('/setQr', qrController.setQr)
 router.get('/getQrs', qrController.getQrs)
 router.post('/changeUrl', qrController.changeUrl)
 router.post('/changeName', qrController.changeName)
 router.post('/registrationQrCode', qrController.registrationQrCode)
 
+//Telegram
+router.post('/regTg', userController.regTg)
+
+//Create QRs
 router.post('/createQRs', qrController.create)
 
 
