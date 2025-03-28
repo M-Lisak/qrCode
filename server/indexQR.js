@@ -28,7 +28,7 @@ app.use('/public', express.static('./public'))
 app.use(cookieParser())
 app.use(cors({
     credentials: true,
-    origin: process.env.CLIENT_URL
+    origin: '*'/* process.env.CLIENT_URL */
 }))
 app.use('/api', router)
 app.use(errorMiddleware)
