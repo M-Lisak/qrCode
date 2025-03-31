@@ -212,7 +212,7 @@ class QRController {
 
             if(user && user.notifications) {
                 //отправляем уведомление в телеграм
-                await axios.get(`127.0.0.1:5016/notification?chatId=${user.tgId}`)
+                await axios.get(`http://127.0.0.1:5016/notification?chatId=${user.tgId}&name=${qrCode.name}`)
             }
             
             qrCode.count += 1
