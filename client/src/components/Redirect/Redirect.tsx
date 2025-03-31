@@ -1,24 +1,23 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../../store/store'
-import { getQrById } from '../../store/slices/userSlice'
+import { getQrByIdRedirect } from '../../store/slices/userSlice'
 import { useAppSelector } from '../../store/hooks'
 
 function RedirectPage() {
-    console.log('redirect page')
     //получить адрес куда нужно переходить
     const qrId = window.location.pathname.split('/')[2]
-    console.log('qrId', qrId)
     const dispatch = useDispatch<AppDispatch>()
     const origUrl = useAppSelector(state => state.user.qrCode?.originalUrl)
 
     if(origUrl) {
+        //прибавляем кол-во переходов, а так же отправляем уведомление в телеграм
         window.location.href = origUrl
     }
     
     useEffect(() => {
         (async() => {
-            await dispatch(getQrById(qrId))
+            await dispatch(getQrByIdRedirect(qrId))
         })()
     }, [])
 

@@ -10,6 +10,7 @@ router.get('/refresh', userController.refresh)
 // router.get('/:urlid', qrController.navigation)
 
 router.get('/getQrById', qrController.getQrById)
+router.get('/getQrByIdRedirect', qrController.getQrByIdRedirect)
 
 router.post('/setQr', qrController.setQr)
 router.get('/getQrs', qrController.getQrs)

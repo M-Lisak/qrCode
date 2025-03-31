@@ -195,6 +195,25 @@ class QRController {
         }
     }
 
+    async getQrByIdRedirect(req, res, next) {
+        try {
+            const { id } = req.query
+            const base = process.env.BASE
+
+            const qrCode = await QRModel.findOne({ where: { shortUrl: `${base}/nav/${id}` }})
+
+            if(!qrCode) return res.json({})//какую-нибудь заглушечку, что этот qr никуда не ведёт
+
+            qrCode.count += 1
+            await qrCode.save()
+
+            return res.json(qrCode)
+        } catch (e) {
+            console.log('QRController getQrByIdRedirect Error', e)
+            next(e)
+        }
+    }
+
     async registrationQrCode(req, res, next) {
         try {
             const { userId, qrId } = req.body
