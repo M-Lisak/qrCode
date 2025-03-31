@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import LoginForm from './components/LoginForm/LoginForm';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from './store/store';
-import { checkAuth, logout } from './store/slices/userSlice';
+import { checkAuth } from './store/slices/userSlice';
 import { useAppSelector } from './store/hooks';
 import classes from './App.module.scss'
 import { useNavigate } from 'react-router';
@@ -23,10 +23,6 @@ function App() {
     }
   }, [])
 
-  const exit = () => {
-    dispatch(logout())
-  }
-
   if(isLoading) {
     return <div>...Загрузка</div>
   }
@@ -46,9 +42,10 @@ function App() {
       <div className={classes['main']}>
         {
           qrCodes.map((el: any) => {
-            const sourceImg = `http://45.131.99.100:5014/qrCodes/${getIdFromUrl(el.shortUrl)}.png`
+            const sourceImg = `https://qr-love.ru:5015/qrCodes/${getIdFromUrl(el.shortUrl)}.png`
             return (<div key={el.name} className={classes['main__qr-list']} onClick={() => goToQr(el.shortUrl)}>
                 <img id="img" src={sourceImg}></img>
+                <p>{el.count}</p>
                 <span>{el.name}</span>
               </div>)
           })

@@ -112,8 +112,9 @@ function QrInfoPage() {
             <Header />
             <div className={classes['qr-info-page__main']}>
                 <h3>{qrCode?.name}</h3>
-                <img src={`http://45.131.99.100:5014/qrCodes/${getIdFromUrl(qrCode?.shortUrl)}.png`}></img>
+                <img src={`https://qr-love.ru:5015/qrCodes/${getIdFromUrl(qrCode?.shortUrl)}.png`}></img>
                 <span>{qrCode?.originalUrl}</span>
+                <span>Количество переходов: {qrCode?.count}</span>
                 <button onClick={handleModalOpen}>Заменить URL</button>
                 <button onClick={handleModalOpenName}>Сменить название</button>
             </div>
