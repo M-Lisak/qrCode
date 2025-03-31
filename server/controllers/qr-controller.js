@@ -6,6 +6,8 @@ const { QRCodeStyling } = require('qr-code-styling/lib/qr-code-styling.common.js
 const { JSDOM } = require('jsdom')
 const nodeCanvas = require('canvas')
 const path = require('path')
+const { UserModel } = require('../models/user-model')
+const { default: axios } = require('axios')
 
 class QRController {
     async create(req, res, next) {
@@ -202,8 +204,17 @@ class QRController {
 
             const qrCode = await QRModel.findOne({ where: { shortUrl: `${base}/nav/${id}` }})
 
+            //тут же ищем пользователя
+            
             if(!qrCode) return res.json({})//какую-нибудь заглушечку, что этот qr никуда не ведёт
+            
+            const user = await UserModel.findOne({ where: {id: qrCode.userId}})
 
+            if(user && user.notifications) {
+                //отправляем уведомление в телеграм
+                await axios.get(`127.0.0.1:5016/notification?chatId=${user.tgId}`)
+            }
+            
             qrCode.count += 1
             await qrCode.save()
 

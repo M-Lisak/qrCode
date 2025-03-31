@@ -38,7 +38,7 @@ const start = async () => {
         UserModel.hasOne(TokenModel)
         UserModel.hasMany(QRModel)
         await sequelize.authenticate()
-        await sequelize.sync(/* { alter: true } *//* {force: true} */)
+        await sequelize.sync({ alter: true }/* {force: true} */)
         http.createServer(app).listen(5014, () => console.log('http listen 5014'))
         https.createServer(httpsOptions, app).listen(5015, () => console.log('https listen 5015'))
     } catch(e) {

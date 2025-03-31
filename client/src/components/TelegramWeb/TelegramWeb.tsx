@@ -23,20 +23,20 @@ function TelegramWeb() {
 
     const signIn = async () => {
         fetch('https://qr-love.ru:5015/api/regTg',{
-        method: 'POST',
-        // credentials: 'include',//возможно что-то другое здесь должно быть
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({phone: login, password, chatId: tg?.initDataUnsafe?.user?.id })
+            method: 'POST',
+            // credentials: 'include',//возможно что-то другое здесь должно быть
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({phone: login, password, chatId: tg?.initDataUnsafe?.user?.id })
         }).then(res => {
         setData('Успешно')
-        //закрыть приложение
-        onClose()
+            //закрыть приложение
+            // onClose()
         })
         .catch(e => {
-        console.log('e', e)
-        setData('Ошибка авторизации. Номер/почта или пароль не верный')
+            console.log('e', e)
+            setData('Ошибка авторизации. Номер/почта или пароль не верный')
         })
         
     }

@@ -6,6 +6,7 @@ const UserModel = sequelize.define('user', {
     phone: { type: DataTypes.STRING, unique: true, allowNull: false },
     password: { type: DataTypes.STRING, allowNull: false },
     tgId: { type: DataTypes.STRING },
+    notifications: {type: DataTypes.BOOLEAN, defaultValue: false },
 }, {timestamps: false, createdAt: false, updatedAt: false})
 
 module.exports = {
