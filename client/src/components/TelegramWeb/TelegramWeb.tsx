@@ -14,8 +14,9 @@ function TelegramWeb() {
     tg?.disableVerticalSwipes()
     if(!user?.id) {
         //уходим с этой страницы
-        window.location.href = 'https://qr-love.ru'
-        onClose()
+        console.log('нет id')
+        // window.location.href = 'https://qr-love.ru'
+        // onClose()
     }
     // tg.enableClosingConfirmation()
   }, [tg])
