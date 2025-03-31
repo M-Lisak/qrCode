@@ -9,9 +9,9 @@ function TelegramWeb() {
   const [ data, setData ] = useState(0)
 
   useEffect(() => {
-    tg.ready()
-    tg.expand()
-    tg.disableVerticalSwipes()
+    tg?.ready()
+    tg?.expand()
+    tg?.disableVerticalSwipes()
     // tg.enableClosingConfirmation()
   }, [tg])
 
