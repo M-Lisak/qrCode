@@ -69,6 +69,18 @@ class UserController {
             next(e)   
         }
     }
+
+    async setNotification(req, res, next) {
+        try {
+            const { id, value } = req.body
+
+            const userData = await UserService.setNotification(id, value)
+
+            return res.json(userData)
+        } catch (e) {
+            next(e)   
+        }
+    }
 }
 
 module.exports = new UserController()

@@ -20,6 +20,7 @@ router.post('/registrationQrCode', qrController.registrationQrCode)
 
 //Telegram
 router.post('/regTg', userController.regTg)
+router.post('/setNotification', userController.setNotification)
 
 //Create QRs
 router.post('/createQRs', qrController.create)

@@ -9,6 +9,7 @@ const initialState = {
     user: {
         phone: '',
         id: '',
+        notifications: false,
     },
     qrCode: {} as any,
     qrCodes: [] as any,
@@ -58,6 +59,20 @@ export const logout = createAsyncThunk(
     }
 )
 
+export const setNotification = createAsyncThunk(
+    'user/setNotification',
+    async (data: any, thunkAPI) => {
+        try {
+            const response = await axios.post(`${API_URL}/setNotification`, data)
+
+            return response
+        } catch (e: any) {
+            console.log('setNotification error', e?.response?.data?.message)
+            return thunkAPI.rejectWithValue(e?.response?.data?.message)
+        }
+    }
+)
+
 export const checkAuth = createAsyncThunk(
     'user/checkAuth',
     async (_, thunkAPI) => {
@@ -79,7 +94,7 @@ export const setQrCode = createAsyncThunk(
         try {
             const response = await axios.post<AuthResponse>(`${API_URL}/setQr`, user)
             // return response.data
-            return 'asdf'
+            return response
         } catch (e: any) {
             console.log('setQrCode error', e?.response?.data?.message)
             return thunkAPI.rejectWithValue(e?.response?.data?.message)
@@ -224,6 +239,18 @@ export const userSlice = createSlice({
                 state.user = {} as IUser
             })
             .addCase(logout.rejected, (state, action: any) => {
+                state.loading = false
+                state.error = action.payload
+            })
+            //setNotification
+            .addCase(setNotification.pending, (state) => {
+                state.loading = true
+            })
+            .addCase(setNotification.fulfilled, (state, action: any) => {
+                state.loading = false
+                state.user = action.payload
+            })
+            .addCase(setNotification.rejected, (state, action: any) => {
                 state.loading = false
                 state.error = action.payload
             })

@@ -91,6 +91,19 @@ class UserService {
 
         return user
     }
+
+    async setNotification(id, value) {
+        const user = await UserModel.findOne({where: { id }})
+        if(!user) {
+            throw ApiError.BadRequest('Пользователь с таким id не найден')
+        }
+
+        //пользователь верно ввёл свои данные можно присваивать ему chatId этого пользователя
+        user.notifications = value
+        await user.save()
+
+        return user
+    }
 }
 
 module.exports = new UserService()
