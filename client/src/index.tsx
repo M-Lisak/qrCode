@@ -8,6 +8,7 @@ import { BrowserRouter, Route, Routes } from 'react-router';
 import RedirectPage from './components/Redirect/Redirect';
 import QrInfoPage from './components/QrInfoPage/QrInfoPage';
 import TelegramWeb from './components/TelegramWeb/TelegramWeb';
+import InfoPage from './components/Info/Info';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -20,6 +21,7 @@ root.render(
             <Route index element={<App/>}/>
             <Route path=':urlid' element={<QrInfoPage/>}/>
             <Route path='nav/:urlid' element={<RedirectPage/>}/>
+            <Route path='info' element={<InfoPage/>}/>
             <Route path='notifications' element={<TelegramWeb/>}/>
           </Route>
         </Routes>

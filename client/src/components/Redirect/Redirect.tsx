@@ -19,7 +19,7 @@ function RedirectPage() {
         (async() => {
             await dispatch(getQrByIdRedirect(qrId))
         })()
-    }, [])
+    }, [qrId])
 
     return <></>
 }
