@@ -15,7 +15,8 @@ app.get('/notification', async (req, res) => {
     const { chatId, name } = req.query
     if(!chatId) res.json('Отсутствует chatId')
     
-    return await bot.sendMessage(chatId, `Переход по вашему QR-коду: ${name}`)
+    await bot.sendMessage(chatId, `Переход по вашему QR-коду: ${name}`)
+    return res.json('success')
 })
 
 app.listen(5016, () => console.log('listen port 5016'))
