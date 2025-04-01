@@ -45,7 +45,7 @@ function App() {
             const sourceImg = `https://qr-love.ru:5015/qrCodes/${getIdFromUrl(el.shortUrl)}.png`
             return (<div key={el.name} className={classes['main__qr-list']} onClick={() => goToQr(el.shortUrl)}>
                 <img id="img" src={sourceImg}></img>
-                <p>{el.count}</p>
+                <p>Кол-во переходов: {el.count}</p>
                 <span>{el.name}</span>
               </div>)
           })
