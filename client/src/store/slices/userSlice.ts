@@ -65,7 +65,7 @@ export const setNotification = createAsyncThunk(
         try {
             const response = await axios.post(`${API_URL}/setNotification`, data)
 
-            return response
+            return response.data
         } catch (e: any) {
             console.log('setNotification error', e?.response?.data?.message)
             return thunkAPI.rejectWithValue(e?.response?.data?.message)

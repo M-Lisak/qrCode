@@ -4,7 +4,6 @@ export const callbackOnMessage = async (msg) => {
     try {
         const text = msg.text
         const chatId = msg.chat.id
-        console.log('chatId', chatId)
     
         if(text === '/start') {
             //инструкция для работы с ботом

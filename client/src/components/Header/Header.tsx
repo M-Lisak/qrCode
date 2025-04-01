@@ -16,7 +16,6 @@ function Header() {
   }
 
   const goToHome = () => {
-    console.log('/goToHome')
     navigate('/')
   }
 
@@ -32,7 +31,7 @@ function Header() {
           <div>
             Уведомления:
             <label className={classes['header__switch']}>
-              <input type='checkbox' value={user.notifications as any} onChange={(e) => _onChange(e.target.checked)}></input>
+              <input type='checkbox' checked={user.notifications as any} onChange={(e) => _onChange(e.target.checked)}></input>
               <span className={classes['header__slider']}></span>
             </label>
           </div>
