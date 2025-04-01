@@ -7,10 +7,15 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
+
+    &__logo{
+        height: 40px;
+    }
+
     &__right-panel {
         // margin-left: auto;
         // align-items: center;
-        width: 170px;
+        // width: 170px;
         span {
             margin-right: 20px;
         }
@@ -30,7 +35,7 @@
         display: inline-block;
         width: 40px;
         height: 21px;
-        // margin-left: auto;
+        margin-right: 10px;
 
         input {
             opacity: 0;

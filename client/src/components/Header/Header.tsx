@@ -25,8 +25,8 @@ function Header() {
   }
 
   return (
-      <div className={classes['header']} onClick={goToHome}>
-        <h3>QR</h3>
+      <div className={classes['header']}>
+        <img onClick={goToHome} src='/logotip.png' className={classes['header__logo']}></img>
         <div className={classes['header__right-space']}>
           <div>
             Уведомления:
