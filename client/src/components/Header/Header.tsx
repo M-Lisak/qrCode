@@ -29,14 +29,14 @@ function Header() {
         <img onClick={goToHome} src='/logotip.png' className={classes['header__logo']}></img>
         <div className={classes['header__right-space']}>
           <div>
-            Уведомления:
+            <span style={{fontSize: '10px'}}>Уведомления:</span>
             <label className={classes['header__switch']}>
               <input type='checkbox' checked={user.notifications as any} onChange={(e) => _onChange(e.target.checked)}></input>
               <span className={classes['header__slider']}></span>
             </label>
           </div>
           <div className={classes['header__right-panel']}>
-            <span>{user.phone}</span>
+            {/* <span>{user.phone}</span> */}
             <button onClick={exit}>Выйти</button>
           </div>
         </div>
