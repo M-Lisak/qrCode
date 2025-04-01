@@ -24,7 +24,7 @@ function App() {
   }, [])
 
   if(isLoading) {
-    return <div>...Загрузка</div>
+    return <div className={classes['container']}><div className={classes['loader']}></div></div>
   }
 
   if(!isAuth) {

@@ -89,7 +89,7 @@ function QrInfoPage() {
     }
 
     if(loading) {//есть момент, в котором пользователь не авторизован, и при этом loading false
-        return <>Загрузка...</>
+        return <div className={classes['container']}><div className={classes['loader']}></div></div>
     }
 
     if(!isAuth) {
