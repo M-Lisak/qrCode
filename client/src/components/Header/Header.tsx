@@ -23,6 +23,8 @@ function Header() {
     //делаем проверку tgId 
     if(!user.tgId) {
       navigate('/infoNotifications')
+      
+      return
     }
     dispatch(setNotification({ id: user.id, value }))
   }
