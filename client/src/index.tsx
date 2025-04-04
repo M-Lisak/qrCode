@@ -9,6 +9,7 @@ import RedirectPage from './components/Redirect/Redirect';
 import QrInfoPage from './components/QrInfoPage/QrInfoPage';
 import TelegramWeb from './components/TelegramWeb/TelegramWeb';
 import InfoPage from './components/Info/Info';
+import InfoNotifications from './components/InfoNotifications/InfoNotifications';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -23,6 +24,7 @@ root.render(
             <Route path='nav/:urlid' element={<RedirectPage/>}/>
             <Route path='info' element={<InfoPage/>}/>
             <Route path='notifications' element={<TelegramWeb/>}/>
+            <Route path='infoNotifications' element={<InfoNotifications />}/>
           </Route>
         </Routes>
       </BrowserRouter>

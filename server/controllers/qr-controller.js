@@ -210,7 +210,7 @@ class QRController {
             
             const user = await UserModel.findOne({ where: {id: qrCode.userId}})
 
-            if(user && user.notifications) {
+            if(user && user.notifications && user.tgId) {
                 //отправляем уведомление в телеграм
                 await axios.get(`http://127.0.0.1:5016/notification?chatId=${user.tgId}&name=${qrCode.name}`)
             }
@@ -243,7 +243,6 @@ class QRController {
             next(e)
         }
     }
-
 }
 
 module.exports = new QRController()

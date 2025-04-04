@@ -10,6 +10,7 @@ const initialState = {
         phone: '',
         id: '',
         notifications: false,
+        tgId: '',
     },
     qrCode: {} as any,
     qrCodes: [] as any,
