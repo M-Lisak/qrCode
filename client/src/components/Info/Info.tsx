@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react'
-// import { useDispatch } from 'react-redux'
-// import { AppDispatch } from '../../store/store'
-// import { getQrByIdRedirect } from '../../store/slices/userSlice'
-// import { useAppSelector } from '../../store/hooks'
+import classes from './Info.module.scss'
+import Header from '../Header/Header'
 
 function InfoPage() {
     useEffect(() => {
@@ -11,7 +9,12 @@ function InfoPage() {
         })()
     }, [])
 
-    return <>Информация!</>
+    return <div className={classes['info']}>
+        <Header/>
+        <div className={classes['info__container']}>
+            <img className={classes['info__img']} src='/info.jpg'></img>
+        </div>
+    </div>
 }
 
 export default InfoPage
