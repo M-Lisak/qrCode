@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/store';
 import { logout, setNotification } from '../../store/slices/userSlice';
@@ -13,6 +13,10 @@ function Header() {
 
   const exit = () => {
     dispatch(logout())
+  }
+
+  const signIn = () => {
+    navigate('/')
   }
 
   const goToHome = () => {
@@ -33,16 +37,23 @@ function Header() {
       <div className={classes['header']}>
         <img onClick={goToHome} src='/logotip.png' className={classes['header__logo']}></img>
         <div className={classes['header__right-space']}>
-          <div>
-            <span style={{fontSize: '11px', marginRight: '5px'}}>Уведомления:</span>
-            <label className={classes['header__switch']}>
-              <input type='checkbox' checked={user.notifications as any} onChange={(e) => _onChange(e.target.checked)}></input>
-              <span className={classes['header__slider']}></span>
-            </label>
-          </div>
+          {
+            user?.id
+             ? <div>
+                <span style={{fontSize: '11px', marginRight: '5px'}}>Уведомления:</span>
+                <label className={classes['header__switch']}>
+                  <input type='checkbox' checked={user?.notifications as any} onChange={(e) => _onChange(e.target.checked)}></input>
+                  <span className={classes['header__slider']}></span>
+                </label>
+              </div>
+              : <></>
+          }
           <div className={classes['header__right-panel']}>
-            {/* <span>{user.phone}</span> */}
-            <button onClick={exit}>Выйти</button>
+            {
+              user?.id
+                ? <button onClick={exit}>Выйти</button>
+                : <button onClick={signIn}>Войти</button>
+            }
           </div>
         </div>
       </div>
