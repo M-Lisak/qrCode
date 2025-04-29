@@ -18,7 +18,7 @@ class QRController {
 
             const rootDir = path.resolve()
 
-            const pathToLogo = path.join(rootDir, '/public/logo.png')
+            const pathToLogo = path.join(rootDir, '/public/logo7.png')
 
             //ВНИМАНИЕ не должно быть одинаковых ID, нужно за ранее получить все qr-коды,
             //и при создании нового искать в этом массиве, если всё норм, то после создания добавлять его в этот массив
@@ -37,11 +37,11 @@ class QRController {
                     data: shortUrl,
                     dotsOptions: {
                       type: "rounded",
-                      gradient: {
-                        type: 'radial',
-                        color: '#B71D9C',
-                        colorStops: [{offset: 0, color: '#B71D9C'}, {offset: 1, color: '#7D16C3'}]
-                      }
+                    //   gradient: {
+                        // type: 'radial',
+                        color: '#000000',
+                    //     colorStops: [{offset: 0, color: '#B71D9C'}, {offset: 1, color: '#7D16C3'}]
+                    //   }
                     },
                     // backgroundOptions: {
                     //     color: '#ffffff',
@@ -52,11 +52,11 @@ class QRController {
                     //     // }
                     // },
                     cornersSquareOptions: {
-                        color: '#7D16C3',
+                        color: '#000000',
                         type: 'extra-rounded',
                     },
                     cornersDotOptions: {
-                        color: '#B71D9C'
+                        color: '#000000'
                     },
                     imageOptions: {
                         crossOrigin: "anonymous",
