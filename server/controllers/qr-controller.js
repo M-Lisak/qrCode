@@ -18,7 +18,7 @@ class QRController {
 
             const rootDir = path.resolve()
 
-            const pathToLogo = path.join(rootDir, '/public/logo6.png')
+            const pathToLogo = path.join(rootDir, '/public/logo.png')
 
             //ВНИМАНИЕ не должно быть одинаковых ID, нужно за ранее получить все qr-коды,
             //и при создании нового искать в этом массиве, если всё норм, то после создания добавлять его в этот массив
@@ -31,33 +31,32 @@ class QRController {
                 const qrCode = new QRCodeStyling({
                     jsdom: JSDOM,
                     nodeCanvas,
-                    width: 300,
-                    height: 300,
+                    width: 1500,
+                    height: 1500,
                     image: pathToLogo,
                     data: shortUrl,
                     dotsOptions: {
                       type: "rounded",
-                      color: '#F17E00',
-                    //   gradient: {
-                    //     type: 'radial',
+                      gradient: {
+                        type: 'radial',
+                        color: '#B71D9C',
+                        colorStops: [{offset: 0, color: '#B71D9C'}, {offset: 1, color: '#7D16C3'}]
+                      }
+                    },
+                    // backgroundOptions: {
                     //     color: '#ffffff',
-                    //     colorStops: [{offset: 0, color: '#ffffff'}, {offset: 1, color: '#ffffff'}]
-                    //   }
-                    },
-                    backgroundOptions: {
-                        color: '#ffffff',
-                        // gradient: {
-                        //     type: 'linear',
-                        //     colorStops: [{offset: 0, color: '#0B6B5C'}, {offset: 1, color: '#14825B'}],
-                        //     rotation: 90
-                        // }
-                    },
+                    //     // gradient: {
+                    //     //     type: 'linear',
+                    //     //     colorStops: [{offset: 0, color: '#0B6B5C'}, {offset: 1, color: '#14825B'}],
+                    //     //     rotation: 90
+                    //     // }
+                    // },
                     cornersSquareOptions: {
-                        color: '#F17E00',
+                        color: '#7D16C3',
                         type: 'extra-rounded',
                     },
                     cornersDotOptions: {
-                        color: '#F17E00'
+                        color: '#B71D9C'
                     },
                     imageOptions: {
                         crossOrigin: "anonymous",

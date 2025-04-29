@@ -1,0 +1,19 @@
+.notifications {
+    height: 100vh;
+    overflow: hidden;
+    padding: 10px;
+
+    &__container {
+        height: 100vh;
+        overflow: auto;
+    }
+
+    &__img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 96%;
+        border-radius: 7%;
+        margin-bottom: 85px;
+    }
+}

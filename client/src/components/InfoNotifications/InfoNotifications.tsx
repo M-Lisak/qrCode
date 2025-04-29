@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react'
+import React from 'react'
+import classes from './InfoNotifications.module.scss'
+import Header from '../Header/Header'
 
 function InfoNotifications() {
-    useEffect(() => {
-        (async() => {
+    return <div className={classes['notifications']}>
+        <Header/>
+        <div className={classes['notifications__container']}>
+            <img className={classes['notifications__img']} src=''></img>
+        </div>
 
-        })()
-    }, [])
-
-    return <div>
-        InfoNotifications!
     </div>
 }
 

@@ -57,11 +57,11 @@ function QrInfoPage() {
 
     const saveNewLink = () => {
         //здесь отправляем запрос на бэк
-        const regex = /^(https:\/\/)(t.me|vk.com|ok.ru\/profile)\/[^\s@]*$/
+        const regex = /^(https:\/\/)(t.me|vk.com)\/[^\s@]*$/
 
         const isLink = regex.test(newLink)
 
-        if(!isLink) setErrorInput(`Ссылка должна быть в формате:\nhttps://t.me/username\nhttps://vk.com/username\nhttps://ok.ru/profile/username`)
+        if(!isLink) setErrorInput(`Ссылка должна быть в формате:\nhttps://t.me/username\nhttps://vk.com/username`)
         else {
             dispatch(changeUrl({ shortUrl: qrCode?.shortUrl, newUrl: newLink }))
             handleModalClose()
@@ -77,7 +77,7 @@ function QrInfoPage() {
     const onChangeLink = (link: string) => {
         //здесь меняем ссылку и валидируем её
         setNewLink(link)
-        const regex = /^(https:\/\/)(t.me|vk.com|ok.ru\/profile)\/[^\s@]*$/
+        const regex = /^(https:\/\/)(t.me|vk.com)\/[^\s@]*$/
 
         const isLink = regex.test(link)
         //здесь мы можем окрашивать только в обычный цвет и удалять ошибки(если до этого были ошибки)
